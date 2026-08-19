@@ -7,26 +7,32 @@ on:
 
 jobs:
 
-  test:
-    runs-on: ubuntu-latest
+ test:
+  runs-on: ubuntu-latest
 
-    steps:
-      - name: Descargar repositorio
-        uses: actions/checkout@v4
+  steps:
+    - name: Descargar repositorio
+      uses: actions/checkout@v4
 
-      - name: Instalar .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+    - name: Instalar .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Restaurar dependencias
-        run: dotnet restore
+    - name: Restaurar aplicación
+      run: dotnet restore HolaMundo/HolaMundo.csproj
 
-      - name: Compilar
-        run: dotnet build --no-restore --configuration Release
+    - name: Restaurar pruebas
+      run: dotnet restore HolaMundo.Tests/HolaMundo.Tests.csproj
 
-      - name: Ejecutar pruebas
-        run: dotnet test --no-build --configuration Release
+    - name: Compilar aplicación
+      run: dotnet build HolaMundo/HolaMundo.csproj --no-restore --configuration Release
+
+    - name: Compilar pruebas
+      run: dotnet build HolaMundo.Tests/HolaMundo.Tests.csproj --no-restore --configuration Release
+
+    - name: Ejecutar pruebas
+      run: dotnet test HolaMundo.Tests/HolaMundo.Tests.csproj --no-build --configuration Release
 
 
   docker:
