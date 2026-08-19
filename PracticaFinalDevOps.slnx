@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path="ci-cd.yml" />
+  </Folder>
   <Project Path="HolaMundo.Tests/HolaMundo.Tests.csproj" />
   <Project Path="HolaMundo/HolaMundo.csproj" />
 </Solution>
