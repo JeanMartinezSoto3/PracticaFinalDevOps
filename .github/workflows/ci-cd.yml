@@ -19,14 +19,20 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restaurar dependencias
-        run: dotnet restore
+      - name: Restaurar aplicación
+        run: dotnet restore HolaMundo/HolaMundo.csproj
 
-      - name: Compilar
-        run: dotnet build --no-restore --configuration Release
+      - name: Restaurar pruebas
+        run: dotnet restore HolaMundo.Tests/HolaMundo.Tests.csproj
+
+      - name: Compilar aplicación
+        run: dotnet build HolaMundo/HolaMundo.csproj --no-restore --configuration Release
+
+      - name: Compilar pruebas
+        run: dotnet build HolaMundo.Tests/HolaMundo.Tests.csproj --no-restore --configuration Release
 
       - name: Ejecutar pruebas
-        run: dotnet test --no-build --configuration Release
+        run: dotnet test HolaMundo.Tests/HolaMundo.Tests.csproj --no-build --configuration Release
 
 
   docker:
@@ -47,5 +53,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./HolaMundo/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hola-mundo-devops:latest
